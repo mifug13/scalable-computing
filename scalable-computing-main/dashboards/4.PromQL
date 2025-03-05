@@ -1,0 +1,1 @@
+sum by (cluster_name)(avg_over_time(kubernetes_io:container_memory_used_bytes{monitored_resource="k8s_container"}[${__interval}]))

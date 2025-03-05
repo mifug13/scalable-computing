@@ -1,0 +1,3 @@
+sum by (namespace_name)(rate(kubernetes_io:container_memory_used_bytes{monitored_resource="k8s_container"}[${__interval}]))
+/ on() group_left()
+sum by (cluster_name)(rate(kubernetes_io:container_memory_used_bytes{monitored_resource="k8s_container"}[${__interval}]))

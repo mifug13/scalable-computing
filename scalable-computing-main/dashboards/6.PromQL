@@ -1,0 +1,1 @@
+sum by (bucket_name)(rate(storage_googleapis_com:network_received_bytes_count{monitored_resource="gcs_bucket"}[${__interval}]))

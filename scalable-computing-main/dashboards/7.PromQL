@@ -1,0 +1,5 @@
+(
+    count(sum by (metadata_system_node_name)(avg_over_time(kubernetes_io:container_uptime{monitored_resource="k8s_container",cluster_name="autopilot-cluster"}[${__interval}])))
+    or
+    vector(0)
+)

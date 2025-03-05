@@ -1,0 +1,9 @@
+fetch k8s_container
+| metric 'kubernetes.io/container/cpu/request_utilization'
+| filter (resource.namespace_name == 'default')
+| group_by 1m, [value_request_utilization_mean: mean(value.request_utilization)]
+| every 1m
+| group_by [resource.pod_name],
+    [value_request_utilization_mean_aggregate:
+       aggregate(value_request_utilization_mean)]
+| scale "%"

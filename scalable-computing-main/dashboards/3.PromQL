@@ -1,0 +1,1 @@
+sum by (cluster_name)(rate(kubernetes_io:container_cpu_core_usage_time{monitored_resource="k8s_container"}[${__interval}]))

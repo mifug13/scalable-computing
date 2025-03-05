@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-gcs-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-gcs
+  template:
+    metadata:
+      labels:
+        app: hello-gcs
+      annotations:
+        gke-gcsfuse/volumes: "true"
+    spec:
+      containers:
+      - name: hello-gcs
+        image: gcr.io/storied-box-435409-f6/hello-gcs:latest # Replace project-id with your GCP project ID
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: gcs-fuse-csi-ephemeral
+          mountPath: /data
+        env:
+        - name: GCS_MOUNT_POINT
+          value: "/data"
+      serviceAccountName: ksa-gcs-access
+      volumes:
+      - name: gcs-fuse-csi-ephemeral
+        csi:
+          driver: gcsfuse.csi.storage.gke.io
+          volumeAttributes:
+            bucketName: ml-model-bucket-123456
+            mountOptions: "implicit-dirs"
+            gcsfuseLoggingSeverity: warning
